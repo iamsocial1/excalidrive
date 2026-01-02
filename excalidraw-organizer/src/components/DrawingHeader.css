@@ -1,0 +1,57 @@
+.drawing-header {
+  position: fixed;
+  top: 12px;
+  left: 60px;
+  z-index: 999;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.drawing-header-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e1e1e;
+  line-height: 1.4;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.drawing-header-project {
+  font-size: 13px;
+  font-weight: 400;
+  color: #6b6b6b;
+  line-height: 1.3;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Responsive adjustments for smaller viewports */
+@media (max-width: 768px) {
+  .drawing-header {
+    top: 10px;
+    left: 55px;
+  }
+
+  .drawing-header-name {
+    font-size: 14px;
+  }
+
+  .drawing-header-project {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .drawing-header {
+    top: 8px;
+    left: 50px;
+  }
+
+  .drawing-header-name {
+    font-size: 13px;
+  }
+
+  .drawing-header-project {
+    font-size: 11px;
+  }
+}

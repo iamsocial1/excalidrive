@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model matching the users table
+model User {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String   @db.VarChar(255)
+  email        String   @unique @db.VarChar(255)
+  passwordHash String   @map("password_hash") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  preferences  Json     @default("{\"theme\": \"system\", \"defaultViewMode\": \"list\"}")
+
+  projects Project[]
+  drawings Drawing[]
+
+  @@index([email])
+  @@map("users")
+}
+
+// Project model matching the projects table
+model Project {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String   @db.VarChar(255)
+  userId       String   @map("user_id") @db.Uuid
+  drawingCount Int      @default(0) @map("drawing_count")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  drawings Drawing[]
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@map("projects")
+}
+
+// Drawing model matching the drawings table
+model Drawing {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name           String   @db.VarChar(255)
+  userId         String   @map("user_id") @db.Uuid
+  projectId      String   @map("project_id") @db.Uuid
+  excalidrawData Json     @map("excalidraw_data")
+  thumbnail      String?  @db.Text
+  isPublic       Boolean  @default(false) @map("is_public")
+  publicShareId  String?  @unique @map("public_share_id") @db.VarChar(255)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  lastAccessedAt DateTime @default(now()) @map("last_accessed_at") @db.Timestamptz(6)
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([lastAccessedAt(sort: Desc)])
+  @@index([publicShareId], map: "idx_drawings_public_share_id")
+  @@map("drawings")
+}

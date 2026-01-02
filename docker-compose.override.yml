@@ -1,0 +1,33 @@
+# Docker Compose override for development
+# This file is automatically merged with docker-compose.yml
+# Use for development-specific configurations
+
+services:
+  backend:
+    build:
+      context: ./backend
+      target: development
+    # Use local source code with hot reload
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+      - ./backend/package.json:/app/package.json:ro
+    # Override command for development with nodemon
+    command: npm run dev
+    environment:
+      NODE_ENV: development
+
+  frontend:
+    # Use Vite dev server instead of nginx
+    build:
+      context: ./excalidraw-organizer
+      target: builder
+    command: npm run dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./excalidraw-organizer/src:/app/src:ro
+      - ./excalidraw-organizer/package.json:/app/package.json:ro
+    environment:
+      VITE_API_BASE_URL: http://localhost:3001/api
+      VITE_ENV: development

@@ -1,0 +1,41 @@
+.view-mode-toggle {
+  display: flex;
+  gap: 4px;
+  background-color: var(--color-surface-secondary, #f5f5f5);
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.view-mode-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--color-text-secondary, #666);
+  transition: all 0.2s ease;
+}
+
+.view-mode-button:hover {
+  background-color: var(--color-surface-hover, #e8e8e8);
+  color: var(--color-text-primary, #333);
+}
+
+.view-mode-button.active {
+  background-color: var(--color-primary, #6965db);
+  color: white;
+}
+
+.view-mode-button:active {
+  transform: scale(0.95);
+}
+
+.view-mode-button:focus-visible {
+  outline: 2px solid var(--color-primary, #6965db);
+  outline-offset: 2px;
+}

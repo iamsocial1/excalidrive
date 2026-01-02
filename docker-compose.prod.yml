@@ -1,0 +1,68 @@
+services:
+  # Backend API
+  backend:
+    image: ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:latest
+    container_name: excalidraw-backend-prod
+    env_file:
+      - ./backend/.env.production
+    ports:
+      - "3001:3001"
+    networks:
+      - excalidraw-network
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # Frontend
+  frontend:
+    image: ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:latest
+    container_name: excalidraw-frontend-prod
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Mount SSL certificates if using HTTPS
+      - ./ssl:/etc/nginx/ssl:ro
+    networks:
+      - excalidraw-network
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+networks:
+  excalidraw-network:
+    driver: bridge

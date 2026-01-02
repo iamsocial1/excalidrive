@@ -1,0 +1,264 @@
+/* Drawing Card - Icon View */
+.drawing-card-icon {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: white;
+  overflow: hidden;
+}
+
+.drawing-card-icon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.drawing-card-thumbnail {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/2;
+  background: #f5f5f5;
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
+}
+
+.drawing-card-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.drawing-card-actions {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.drawing-card-icon.hovered .drawing-card-actions {
+  opacity: 1;
+}
+
+.action-button {
+  background: white;
+  border: none;
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.action-button:hover:not(:disabled) {
+  transform: scale(1.1);
+  background: #f0f0f0;
+}
+
+.action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-button-delete:hover:not(:disabled) {
+  background: #fee;
+}
+
+.delete-confirm-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.delete-confirm-overlay p {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+}
+
+.delete-confirm-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.confirm-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.confirm-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.confirm-delete {
+  background: #ef4444;
+  color: white;
+}
+
+.confirm-delete:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.confirm-cancel {
+  background: white;
+  color: #333;
+}
+
+.confirm-cancel:hover:not(:disabled) {
+  background: #f0f0f0;
+}
+
+.drawing-card-info {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.drawing-card-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.drawing-card-date {
+  font-size: 12px;
+  color: #666;
+}
+
+.rename-input {
+  width: 100%;
+  padding: 4px 8px;
+  border: 2px solid #3b82f6;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  background: white;
+}
+
+/* Drawing Card - List View */
+.drawing-card-list {
+  display: grid;
+  grid-template-columns: 60px 1fr auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  background: white;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.drawing-card-list:hover {
+  background: #f9fafb;
+}
+
+.drawing-card-thumbnail-small {
+  width: 60px;
+  height: 40px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.drawing-card-thumbnail-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.drawing-card-info-list {
+  flex: 1;
+  min-width: 0;
+}
+
+.drawing-card-info-list .drawing-card-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.drawing-card-info-list .rename-input {
+  width: 100%;
+  max-width: 400px;
+}
+
+.drawing-card-date-list {
+  font-size: 13px;
+  color: #666;
+  min-width: 120px;
+  text-align: right;
+}
+
+.drawing-card-actions-list {
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.drawing-card-list.hovered .drawing-card-actions-list {
+  opacity: 1;
+}
+
+.drawing-card-actions-list .action-button {
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+}
+
+.delete-confirm-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #333;
+}
+
+.delete-confirm-inline span {
+  font-weight: 500;
+}
+
+.delete-confirm-inline .confirm-button {
+  padding: 6px 12px;
+  font-size: 12px;
+}

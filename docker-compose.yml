@@ -1,0 +1,38 @@
+services:
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: excalidraw-backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+    networks:
+      - excalidraw-network
+    restart: unless-stopped
+
+  # Frontend
+  frontend:
+    build:
+      context: ./excalidraw-organizer
+      dockerfile: Dockerfile
+    container_name: excalidraw-frontend
+    environment:
+      VITE_API_BASE_URL: http://localhost:3001/api
+      VITE_ENV: development
+    ports:
+      - "5174:80"
+    depends_on:
+      - backend
+    networks:
+      - excalidraw-network
+    restart: unless-stopped
+
+networks:
+  excalidraw-network:
+    driver: bridge

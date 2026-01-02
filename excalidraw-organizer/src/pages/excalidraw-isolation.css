@@ -1,0 +1,19 @@
+/* 
+ * Excalidraw Isolation Styles
+ * Prevent global CSS from interfering with Excalidraw's internal styles
+ */
+
+/* Ensure Excalidraw uses border-box (modern standard) */
+.excalidraw-wrapper *,
+.excalidraw-wrapper *::before,
+.excalidraw-wrapper *::after {
+  box-sizing: border-box;
+}
+
+/* Prevent max-width/height constraints on Excalidraw's internal elements */
+.excalidraw-wrapper svg,
+.excalidraw-wrapper canvas,
+.excalidraw-wrapper img {
+  max-width: none;
+  max-height: none;
+}
